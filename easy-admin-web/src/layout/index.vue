@@ -1,18 +1,11 @@
 <script lang="ts" setup>
-import { ref ,shallowRef } from 'vue'
+import { shallowRef } from 'vue'
+import User from "@/pages/system/user/index.vue"
 import Scrollbar from "./components/scollbar/index.vue"
 import Header from "./components/header/index.vue"
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
-}
-const tableData = ref(Array.from({ length: 40 }).fill(item))
-
 const isCollapse = shallowRef(false);
-
-const handleCollapse = (collapse:boolean) => isCollapse.value = collapse;
+const handleCollapse = (collapse: boolean) => isCollapse.value = collapse;
 </script>
 
 <template>
@@ -22,13 +15,9 @@ const handleCollapse = (collapse:boolean) => isCollapse.value = collapse;
     <ElContainer class="layout__wrapper">
       <Header :is-collapse="isCollapse" @change-collapse="handleCollapse" />
       <ElMain>
-          <ElScrollbar>
-            <el-table :data="tableData">
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
-            </el-table>
-          </ElScrollbar>
+        <ElScrollbar>
+          <User />
+        </ElScrollbar>
       </ElMain>
     </ElContainer>
   </ElContainer>
@@ -44,7 +33,7 @@ const handleCollapse = (collapse:boolean) => isCollapse.value = collapse;
     display: flex;
     flex-direction: column;
 
-    :deep(.el-main){
+    :deep(.el-main) {
       height: calc(100vh - 120px);
       padding: 0 !important;
     }

@@ -2,8 +2,9 @@ import Service from "./request/index";
 import { ElMessage } from "element-plus"
 import { router } from "@/router"
 
+// process.env.VUE_APP_BASE_API
 const service = new Service({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: "http://localhost:9090",
   timeout: 5000,
   interceptors: {
     requestInterceptor(config) {
@@ -25,13 +26,10 @@ const service = new Service({
             break;
       }
 
-      return response.data
+      return response
     },
     responseInterceptorCatch(error) {
       const { code, message } = error.response;
-      if(Number(code) === 504 || Number(code) === 404){
-      }
-
       switch(Number(code)){
         case 504:
         case 404:

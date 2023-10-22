@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router"
-import Layout from "@/layout/index.vue"
+import locale from "element-plus/dist/locale/zh-cn.mjs"
 </script>
 
 <template>
-<!--   <router-view></router-view>-->
-  <layout />
+   <!--   <router-view></router-view>-->
+  <ElConfigProvider :locale="locale">
+    <RouterView />
+  </ElConfigProvider>
 </template>
