@@ -20,7 +20,6 @@ import java.util.Map;
 @RequestMapping("/user")
 @Api(tags = "用户模块") // 用在类上描述整个Controller接口信息
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -75,17 +74,14 @@ public class UserController {
     public Result login(@RequestBody(required = true) UserDTO userDTO){
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
-
         if(StrUtil.isEmpty(username) || StrUtil.isEmpty(password)){
             return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
         }
 
         User loginUser = userService.login(userDTO);
-
         Result response = loginUser != null
                 ? Result.success("登录成功~",loginUser)
                 : Result.error("登录失败,用户名或密码错误~",null);
-
         return response;
     }
 

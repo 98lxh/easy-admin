@@ -28,7 +28,7 @@
     <!-- 查询所有用户   -->
     <select id="all">
         SELECT
-            <include refid="user_columns"></include>
+            <include refid="user_columns" />
         FROM
             sys_user;
     </select>
@@ -52,7 +52,7 @@
         FROM
             sys_user
         <where>
-            <include refid="user_where_if"></include>
+            <include refid="user_where_if" />
         </where>
     </select>
 
@@ -92,7 +92,7 @@
 
     <select id="selectUserByUsernameAndPassword" resultType="com.easy.entity.User">
         SELECT
-            <include refid="user_columns"></include>
+            <include refid="user_columns" />
         FROM
             sys_user
         WHERE
