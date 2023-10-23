@@ -22,11 +22,11 @@ const classNames = computed(() => ({
   <ElHeader :class="classNames">
     <div class="header__left">
       <ElIcon v-if="isCollapse" @click="emit('change-collapse', false)">
-        <Expand />
-      </ElIcon>
+                  <Fold />
+                </ElIcon>
 
-      <ElIcon v-else @click="emit('change-collapse', true)">
-        <Fold />
+                <ElIcon v-else @click="emit('change-collapse', true)">
+              <Expand />
       </ElIcon>
     </div>
 
@@ -58,6 +58,7 @@ const classNames = computed(() => ({
   border-bottom: 1px solid #ccc;
   justify-content: space-between;
   width: calc(100% - 200px);
+  transition: all 0.3s ease-in-out;
   background: #fff;
   position: fixed;
   height: 45px;
@@ -65,7 +66,7 @@ const classNames = computed(() => ({
   right: 0;
 
   &.is-collapse {
-    width: calc(100% - 60px) !important;
+    width: calc(100% - 64px) !important;
   }
 
   &__left {

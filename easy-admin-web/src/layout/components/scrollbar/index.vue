@@ -39,7 +39,7 @@ const classNames = computed(() => ({
   height: 100vh;
   width: 200px;
   background-color: #001428;
-  transition: width 0.3s;
+  transition: all 0.3s ease-in-out;
   position: fixed;
   z-index: 1000;
 

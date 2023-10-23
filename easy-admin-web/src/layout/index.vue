@@ -38,11 +38,11 @@ const warpperClassNames = computed(() => ({
     margin-left: 200px;
     width: calc(100% - 200px);
     overflow: auto;
-    transition: width 0.3s;
+    transition: all 0.3s ease-in-out;
 
     &.is-collapse {
-      margin-left: 60px !important;
-      width: calc(100% - 60px);
+      margin-left: 64px !important;
+      width: calc(100% - 64px);
     }
 
     &-main {
