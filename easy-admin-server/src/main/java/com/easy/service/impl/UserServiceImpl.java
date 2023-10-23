@@ -1,7 +1,5 @@
 package com.easy.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.controller.dto.UserDTO;
 import com.easy.entity.User;
 import com.easy.mapper.UserMapper;
@@ -12,25 +10,48 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
     @Override
-    public boolean saveUser(User user) {
-        if(user.getId() == null){
-            return save(user); // mybatis-plus 提供的的方法表示插入数据
-        }else{
-            return updateById(user);
-        }
+    public List<User> selectAll() {
+        return userMapper.all();
+    }
+
+    @Override
+    public List<User> selectList(
+                Integer pageNum,
+                Integer pageSize,
+                String username,
+                String email,
+                String address
+    ) {
+        return userMapper.list(pageNum,pageSize,username,email,address);
+    }
+
+    @Override
+    public Integer selectTotal(
+            String username,
+            String email,
+            String address
+    ) {
+        return userMapper.total(username,email,address);
+    }
+
+    @Override
+    public Integer updateUser(User user) {
+        return userMapper.update(user);
+    }
+
+    @Override
+    public Integer deleteUserById(Integer id) {
+        return userMapper.deleteById(id);
     }
 
     @Override
     public User login(UserDTO userDTO) {
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",userDTO.getUsername());
-        queryWrapper.eq("password",userDTO.getPassword());
-        List<User> list = list(queryWrapper);
-        return list == null || list.isEmpty() ? null : list.get(0);
+        List<User> users = userMapper.selectUserByUsernameAndPassword(userDTO.getUsername(),userDTO.getPassword());
+        return users.size() == 0 || users == null ? null : users.get(0);
     }
 }

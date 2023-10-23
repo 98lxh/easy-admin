@@ -1,15 +1,14 @@
 package com.easy.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.common.ResultCode;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.bind.annotation.*;
 import com.easy.controller.dto.UserDTO;
+import com.easy.utils.StrUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import com.easy.service.UserService;
 import com.easy.common.Result;
-import com.easy.utils.StrUtil;
 import com.easy.entity.User;
 
 
@@ -19,12 +18,59 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户模块") // 用在类上描述整个Controller接口信息
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    // 登录方法
+    @ApiOperation(value = "查询所有用户") // 描述方法的基本信息
+    @GetMapping("/all")
+    public Result all(){
+        List<User> allUsers = userService.selectAll();
+        return Result.success("获取成功",  allUsers);
+    }
+
+    @ApiOperation(value = "根据条件查询用户")
+    @GetMapping("/list")
+    public Result list(
+                       @RequestParam(defaultValue = "1") Integer pageNum,
+                       @RequestParam(defaultValue = "5") Integer  pageSize,
+                       @RequestParam(defaultValue = "") String username,
+                       @RequestParam(defaultValue = "") String email,
+                       @RequestParam(defaultValue = "") String address
+    ){
+        pageNum = pageNum - 1;
+        Integer total = userService.selectTotal(username,email,address);
+        List<User> list = userService.selectList(pageNum,pageSize,username,email,address);
+        Map<String,Object> result = new HashMap<>();
+        result.put("list",list);
+        result.put("total",total);
+
+        return Result.success("获取成功!",result);
+    }
+
+    // 修改用户
+    @ApiOperation(value = "修改用户信息")
+    @PostMapping("/update")
+    public Result update(@RequestBody(required = false) User user){
+        if (user == null ||user.getId() == null){
+            return Result.error("请上传修改用户的id~");
+        }
+        Integer updates = userService.updateUser(user);;
+        return updates == 0 ? Result.error("用户修改失败~") : Result.success("用户修改成功~");
+    }
+
+    // 删除用户根据id
+    @ApiOperation(value = "删除用户")
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Integer id){
+        Integer deletes = userService.deleteUserById(id);
+        return deletes == 0 ? Result.error("删除用户失败~") : Result.success("删除用户成功~");
+    }
+
+    // 用户登录
+    @ApiOperation(value = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestBody(required = true) UserDTO userDTO){
         String username = userDTO.getUsername();
@@ -44,76 +90,14 @@ public class UserController {
     }
 
     // 添加用户
-    @PostMapping("/create")
-    public Result create(@RequestBody User user){
-        user.setId(null);
-
-        boolean isCreate = userService.saveUser(user);
-        if(isCreate){
-            return Result.success("创建用户成功");
-        }else{
-            return Result.error("创建用户失败");
-        }
-    }
-
-    // 修改用户
-    @PostMapping("/update")
-    public Result update(@RequestBody User user){
-        boolean isUpdate = userService.saveUser(user);;
-
-        if(isUpdate){
-            return Result.success("更新用户成功");
-        }else{
-            return Result.error("更新用户失败");
-        }
-    }
-
-    // 查询所有用户
-    @GetMapping("/all")
-    public Result all(){
-        List<User> list = userService.list();
-        return Result.success("获取成功",list);
-    }
-
-    // 删除用户根据id
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id){
-        boolean isDelete = userService.removeById(id);
-
-        if(isDelete){
-            return Result.success("删除成功");
-        }else{
-            return Result.error("删除失败");
-        }
-    }
-
-    @GetMapping("/list")
-    public Result list(@RequestParam Integer pageNum,
-                       @RequestParam Integer pageSize,
-                       @RequestParam(defaultValue = "") String username,
-                       @RequestParam(defaultValue = "") String email,
-                       @RequestParam(defaultValue = "") String address
-    ){
-        IPage<User> page = new Page<>(pageNum,pageSize);
-        QueryWrapper<User> queryWrapper  = new QueryWrapper<>();
-
-        // 添加模糊查询条件
-        if(!"".equals(email)){
-            queryWrapper.like("email",email);
-        }
-
-        if(!"".equals(username)){
-            queryWrapper.like("username", username);
-        }
-
-        if(!"".equals(address)){
-            queryWrapper.like("address",address);
-        }
-
-        IPage<User> userPage = userService.page(page,queryWrapper);
-        Map<String,Object> result = new HashMap<>();
-        result.put("total",userPage.getTotal());
-        result.put("list",userPage.getRecords());
-        return Result.success("获取成功",result);
-    }
+//    @PostMapping("/create")
+//    public Result create(@RequestBody User user){
+//        user.setId(null);
+//        boolean isCreate = userService.saveUser(user);
+//        if(isCreate){
+//            return Result.success("创建用户成功");
+//        }else{
+//            return Result.error("创建用户失败");
+//        }
+//    }
 }

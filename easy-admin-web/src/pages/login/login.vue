@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { shallowReactive, ref, shallowRef } from "vue"
 import { User, Key } from "@element-plus/icons-vue"
-import { login } from "@/service/modules/user";
+import { login } from "@/service/modules/user"
+import { PageMode } from "./config/enums"
+import { ElMessage } from "element-plus"
+import { useRouter } from "vue-router"
+import { rules } from "./config/rules"
 import { ElForm } from "element-plus"
 import logo from "@/assets/logo.png"
-import { useRouter } from "vue-router";
-import { rules } from "./config/rules"
-import { PageMode } from "./config/enums"
+
 
 const loading = shallowRef(false);
 const pageMode = shallowRef(PageMode.login);
@@ -26,7 +28,9 @@ async function onLogin() {
   try {
     await loginFormRef.value?.validate();
     const { code } = await login(loginForm);
-    if (code === 200) router.push("/");
+    if (code !== 200) return;
+    ElMessage.success(`${pageMode.value === PageMode.login ? '登录' : '注册'}成功!`)
+    router.push("/welcome/dashboard");
   } catch (err) {
     console.log(err)
   } finally {
@@ -43,7 +47,7 @@ const onCheckoutPageMode = () => pageMode.value = pageMode.value === PageMode.lo
     <ElForm ref="loginFormRef" :rules="rules" :model="loginForm" label-width="0px" class="login-container">
       <div class="login__title">
         <img :src="logo" />
-        <h3> Easy Admin</h3>
+        <h3>Easy Admin</h3>
       </div>
 
       <ElFormItem prop="username">
@@ -58,11 +62,13 @@ const onCheckoutPageMode = () => pageMode.value = pageMode.value === PageMode.lo
 
       <div class="login__checkout">
         <ElButton text type="primary" style="width:auto" @click="onCheckoutPageMode">
-          切换至{{ pageMode === PageMode.login ? "注册" : "登录" }}
+          去{{ pageMode === PageMode.login ? "注册" : "登录" }}
         </ElButton>
       </div>
 
-      <ElButton type="primary" @click="onLogin" :loading="loading">登录</ElButton>
+      <ElButton type="primary" @click="onLogin" :loading="loading">
+        {{ pageMode === PageMode.login ? "登录" : "注册" }}
+      </ElButton>
     </ElForm>
   </div>
 </template>
@@ -111,7 +117,7 @@ const onCheckoutPageMode = () => pageMode.value = pageMode.value === PageMode.lo
     justify-content: flex-end;
 
     button {
-      margin-top: 0px;
+      margin-top: -15px;
     }
   }
 }

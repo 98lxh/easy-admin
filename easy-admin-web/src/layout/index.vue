@@ -1,41 +1,54 @@
 <script lang="ts" setup>
-import { shallowRef } from 'vue'
-import User from "@/pages/system/user/index.vue"
-import Scrollbar from "./components/scollbar/index.vue"
+import { RouterView } from "vue-router";
+import { shallowRef, computed } from 'vue'
+import Scrollbar from "./components/scrollbar/index.vue"
 import Header from "./components/header/index.vue"
 
 const isCollapse = shallowRef(false);
 const handleCollapse = (collapse: boolean) => isCollapse.value = collapse;
+
+const warpperClassNames = computed(() => ({
+  "is-collapse": isCollapse.value,
+  "layout__wrapper": true
+}))
 </script>
 
 <template>
-  <ElContainer class="layout">
+  <div class="layout">
     <Scrollbar :is-collapse="isCollapse" />
-
-    <ElContainer class="layout__wrapper">
+    <div :class="warpperClassNames">
       <Header :is-collapse="isCollapse" @change-collapse="handleCollapse" />
-      <ElMain>
-        <ElScrollbar>
-          <User />
-        </ElScrollbar>
-      </ElMain>
-    </ElContainer>
-  </ElContainer>
+      <div class="layout__wrapper-main">
+        <RouterView />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .layout {
-  height: 100%;
   display: flex;
+  height: 100%;
+  width: 100%;
 
   &__wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
+    margin-left: 200px;
+    width: calc(100% - 200px);
+    overflow: auto;
+    transition: width 0.3s;
 
-    :deep(.el-main) {
+    &.is-collapse {
+      margin-left: 60px !important;
+      width: calc(100% - 60px);
+    }
+
+    &-main {
+      min-width: 1200px;
       height: calc(100vh - 120px);
-      padding: 0 !important;
+      padding-top: 45px;
     }
   }
 }

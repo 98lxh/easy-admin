@@ -2,16 +2,37 @@ import service from "@/service"
 
 const baseUrl = "/user"
 
-export function login(data: object){
-  return service.post<ResponseData<any>>({
-    url:`${baseUrl}//login`,
+interface IUserResponse {
+  list: IUser[],
+  total: number
+}
+
+// 登录
+export function login(data: object) {
+  return service.post<ResponseData<null>>({
+    url: `${baseUrl}//login`,
     data
   })
 }
 
 // 获取用户列表
-export function requestUsers(params: object){
-  return service.get<ResponseData<any>>({
-    url:`${baseUrl}/list`,  params
+export function getUsers(params: object) {
+  return service.get<ResponseData<IUserResponse>>({
+    url: `${baseUrl}/list`, params
   })
 }
+
+// 更改用户信息
+export function updateUser(data: object) {
+  return service.post<ResponseData<null>>({
+    url: `${baseUrl}/update`, data
+  })
+}
+
+// 删除用户根据id
+export function deleteUserById(id: number) {
+  return service.delete<ResponseData<null>>({
+    url: `${baseUrl}/delete/${id}`
+  })
+}
+

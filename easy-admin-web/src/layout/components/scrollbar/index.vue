@@ -39,7 +39,10 @@ const classNames = computed(() => ({
   height: 100vh;
   width: 200px;
   background-color: #001428;
-  transition: all 0.3s;
+  transition: width 0.3s;
+  position: fixed;
+  z-index: 1000;
+
 
   :deep(.el-menu){
     border-right: none;
