@@ -10,7 +10,15 @@ interface IUserResponse {
 // 登录
 export function login(data: object) {
   return service.post<ResponseData<null>>({
-    url: `${baseUrl}//login`,
+    url: `${baseUrl}/login`,
+    data
+  })
+}
+
+// 注册
+export function register(data:object){
+  return service.post<ResponseData<null>>({
+    url: `${baseUrl}/register`,
     data
   })
 }

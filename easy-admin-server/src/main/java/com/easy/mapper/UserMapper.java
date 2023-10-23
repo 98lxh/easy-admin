@@ -39,4 +39,8 @@ public interface UserMapper  {
             @Param("username") String username,
             @Param("password") String password
     );
+
+
+    // 创建用户
+    void create(User user);
 }

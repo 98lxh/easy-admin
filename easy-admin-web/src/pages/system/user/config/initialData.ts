@@ -16,7 +16,8 @@ const initialFormData: IUser = {
   nickname: "",
   address: "",
   email: "",
-  phone: ""
+  phone: "",
+  token:""
 }
 
 export {

@@ -22,7 +22,8 @@
         username,
         nickname,
         address,
-        email
+        email,
+        avatar
     </sql>
 
     <!-- 查询所有用户   -->
@@ -92,10 +93,24 @@
 
     <select id="selectUserByUsernameAndPassword" resultType="com.easy.entity.User">
         SELECT
-            <include refid="user_columns" />
+            <include refid="user_columns" />,password
         FROM
             sys_user
-        WHERE
-            username=#{username} AND password=#{password}
+        <where>
+            <if test="username != null and username != '' ">
+                username=#{username}
+            </if>
+            <if test="password != null and password != '' ">
+             AND  password=#{password}
+            </if>
+        </where>
     </select>
+
+    <!-- 创建用户   -->
+    <insert id="create">
+        INSERT INTO
+            sys_user(username,password,nickname,email,phone,address)
+        VALUES
+            (#{username},#{password},#{nickname},#{email},#{phone},#{address})
+    </insert>
 </mapper>

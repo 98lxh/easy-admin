@@ -4,7 +4,7 @@ import locale from "element-plus/dist/locale/zh-cn.mjs"
 </script>
 
 <template>
-   <!--   <router-view></router-view>-->
+  <!--   <router-view></router-view>-->
   <ElConfigProvider :locale="locale">
     <RouterView />
   </ElConfigProvider>

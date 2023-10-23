@@ -15,6 +15,7 @@ const service = new Service({
 
       switch(Number(code)){
           case 500:
+          case 600:
             ElMessage.warning(message);
             break;
           case 401:

@@ -29,6 +29,17 @@ public class Result {
     /**
      * 成功返回结果
      * @param message
+     * @return
+     * */
+    public static Result success(Object data){
+        return new Result(ResultCode.CODE_200,null,data);
+    }
+
+
+
+    /**
+     * 成功返回结果
+     * @param message
      * @param data
      * @return
      * */

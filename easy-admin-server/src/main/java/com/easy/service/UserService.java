@@ -6,10 +6,6 @@ import com.easy.entity.User;
 import java.util.List;
 
 public interface UserService {
-    // 更新或新增用户
-//    boolean saveUser(User user);
-//    User login(UserDTO userDTO);
-
     // 查询所有用户
     List<User> selectAll();
 
@@ -36,5 +32,11 @@ public interface UserService {
     Integer deleteUserById(Integer id);
 
     // 用户登录
-    User login(UserDTO userDTO);
+    UserDTO login(UserDTO userDTO);
+
+    // 用户注册
+    User register(UserDTO userDTO);
+
+    // 获取用户信息
+    User getUserInfo(UserDTO userDTO, boolean onlyByUsername);
 }

@@ -3,6 +3,7 @@ package com.easy.controller;
 import com.easy.common.ResultCode;
 import com.easy.controller.dto.UserDTO;
 import com.easy.utils.StrUtil;
+import com.easy.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,26 +75,27 @@ public class UserController {
     public Result login(@RequestBody(required = true) UserDTO userDTO){
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
+
         if(StrUtil.isEmpty(username) || StrUtil.isEmpty(password)){
             return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
         }
 
-        User loginUser = userService.login(userDTO);
-        Result response = loginUser != null
-                ? Result.success("登录成功~",loginUser)
-                : Result.error("登录失败,用户名或密码错误~",null);
-        return response;
+        UserDTO dto = userService.login(userDTO);
+        return Result.success("登录成功~",dto);
     }
 
-    // 添加用户
-//    @PostMapping("/create")
-//    public Result create(@RequestBody User user){
-//        user.setId(null);
-//        boolean isCreate = userService.saveUser(user);
-//        if(isCreate){
-//            return Result.success("创建用户成功");
-//        }else{
-//            return Result.error("创建用户失败");
-//        }
-//    }
+    // 用户注册
+    @ApiOperation(value = "用户注册")
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDTO userDTO){
+        String username = userDTO.getUsername();
+        String password = userDTO.getPassword();
+
+        if(StrUtil.isEmpty(username) || StrUtil.isEmpty(password)){
+            return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
+        }
+
+        User user = userService.register(userDTO);
+        return Result.success(user);
+    }
 }

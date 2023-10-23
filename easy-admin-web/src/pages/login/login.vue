@@ -1,36 +1,32 @@
 <script setup lang="ts">
-import { shallowReactive, ref, shallowRef } from "vue"
+import { computed, ref, shallowRef } from "vue"
 import { User, Key } from "@element-plus/icons-vue"
-import { login } from "@/service/modules/user"
-import { PageMode } from "./config/enums"
+import { login, register } from "@/service/modules/user"
 import { ElMessage } from "element-plus"
 import { useRouter } from "vue-router"
 import { rules } from "./config/rules"
 import { ElForm } from "element-plus"
 import logo from "@/assets/logo.png"
 
+import { PageType, initialUserData } from "./config/constants"
 
-const loading = shallowRef(false);
-const pageMode = shallowRef(PageMode.login);
-const loginFormRef = ref<InstanceType<typeof ElForm> | null>(null);
-
-
-
-const loginForm = shallowReactive({
-  username: "",
-  password: "",
-})
 
 const router = useRouter();
 
-async function onLogin() {
+
+const loading = shallowRef(false);
+const userData = ref({ ...initialUserData });
+const pageType = shallowRef(PageType.login);
+const loginFormRef = ref<InstanceType<typeof ElForm> | null>(null);
+
+const isLogin = computed(() => pageType.value === PageType.login);
+
+
+async function execRequestCallback(callback: () => Promise<void>) {
   loading.value = true;
   try {
     await loginFormRef.value?.validate();
-    const { code } = await login(loginForm);
-    if (code !== 200) return;
-    ElMessage.success(`${pageMode.value === PageMode.login ? '登录' : '注册'}成功!`)
-    router.push("/welcome/dashboard");
+    callback();
   } catch (err) {
     console.log(err)
   } finally {
@@ -38,36 +34,62 @@ async function onLogin() {
   }
 }
 
-const onCheckoutPageMode = () => pageMode.value = pageMode.value === PageMode.login ? PageMode.register : PageMode.login;
+function checkout() {
+  pageType.value = isLogin.value ? PageType.register : PageType.login;
+  userData.value = { ...initialUserData }
+}
+
+async function onLogin() {
+  execRequestCallback(async () => {
+    const { username, password } = userData.value;
+    const response = await login({ username, password });
+    if (response.code !== 200) return
+    ElMessage.success(`登录成功, 欢迎用户 ${username}!`)
+    router.push("/welcome/dashboard");
+  })
+}
+
+async function onRegister() {
+  execRequestCallback(async () => {
+    const response = await register(userData.value);
+    if (response.code !== 200) return;
+    ElMessage.success("注册成功, 请登录!")
+    checkout();
+  })
+}
 
 </script>
 
 <template>
   <div class="login">
-    <ElForm ref="loginFormRef" :rules="rules" :model="loginForm" label-width="0px" class="login-container">
+    <ElForm ref="loginFormRef" :rules="rules" :model="userData" label-width="0px" class="login-container">
       <div class="login__title">
         <img :src="logo" />
         <h3>Easy Admin</h3>
       </div>
 
       <ElFormItem prop="username">
-        <ElInput v-model="loginForm.username" :prefix-icon="User" type="text" placeholder="请输入用户名" />
+        <ElInput v-model="userData.username" :prefix-icon="User" type="text" placeholder="请输入用户名" />
       </ElFormItem>
 
       <ElFormItem prop="password">
-        <ElInput v-model="loginForm.password" :prefix-icon="Key" type="password" placeholder="请输入密码" />
+        <ElInput v-model="userData.password" :prefix-icon="Key" type="password" placeholder="请输入密码" />
       </ElFormItem>
 
-      <ElFormItem prop=""></ElFormItem>
+      <template v-if="pageType === PageType.register">
+        <ElFormItem prop="nickname">
+          <ElInput v-model="userData.nickname" :prefix-icon="Key" type="password" placeholder="请输入昵称" />
+        </ElFormItem>
+      </template>
 
       <div class="login__checkout">
-        <ElButton text type="primary" style="width:auto" @click="onCheckoutPageMode">
-          去{{ pageMode === PageMode.login ? "注册" : "登录" }}
+        <ElButton text type="primary" style="width:auto" @click="checkout">
+          去{{ pageType === PageType.login ? "注册" : "登录" }}
         </ElButton>
       </div>
 
-      <ElButton type="primary" @click="onLogin" :loading="loading">
-        {{ pageMode === PageMode.login ? "登录" : "注册" }}
+      <ElButton type="primary" @click="() => isLogin ? onLogin() : onRegister()" :loading="loading">
+        {{ pageType === PageType.login ? "登录" : "注册" }}
       </ElButton>
     </ElForm>
   </div>
