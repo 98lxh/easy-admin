@@ -1,7 +1,8 @@
 declare interface IUser {
   id?: number,
-  token?:string,
+  token?: string,
   username: string
+  password: string
   nickname: string
   address: string
   email: string

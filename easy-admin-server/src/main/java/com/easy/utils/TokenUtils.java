@@ -13,8 +13,6 @@ public class TokenUtils {
      * @param sign
      * */
     public static String generateToken(String userId,String sign){
-        System.out.println("userId=" + userId);
-        System.out.println("password=" + sign);
         return JWT.create().
                 withAudience(userId) //将userId作为载荷
                 .withExpiresAt(DateUtil.offsetHour(new Date(),2)) // 两小时后token过期

@@ -8,11 +8,12 @@ import { rules } from "./config/rules"
 import { ElForm } from "element-plus"
 import logo from "@/assets/logo.png"
 
+import { useUserStore } from "@/store/modules/user"
+
 import { PageType, initialUserData } from "./config/constants"
 
-
 const router = useRouter();
-
+const store = useUserStore();
 
 const loading = shallowRef(false);
 const userData = ref({ ...initialUserData });
@@ -42,7 +43,7 @@ function checkout() {
 async function onLogin() {
   execRequestCallback(async () => {
     const { username, password } = userData.value;
-    const response = await login({ username, password });
+    const response = await store.login({ username, password })
     if (response.code !== 200) return
     ElMessage.success(`登录成功, 欢迎用户 ${username}!`)
     router.push("/welcome/dashboard");
