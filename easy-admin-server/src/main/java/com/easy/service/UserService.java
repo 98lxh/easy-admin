@@ -1,7 +1,7 @@
 package com.easy.service;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.easy.controller.dto.UserDTO;
-import com.easy.entity.User;
+import com.easy.domain.dto.UserDTO;
+import com.easy.domain.vo.UserVO;
+import com.easy.domain.pojo.User;
 
 import java.util.List;
 
@@ -10,20 +10,7 @@ public interface UserService {
     List<User> selectAll();
 
     // 根据条件查询用户
-    List<User> selectList(
-            Integer pageNum,
-            Integer pageSize,
-            String username,
-            String email,
-            String address
-    );
-
-    // 根据条件查询查询总条数
-    Integer selectTotal(
-            String username,
-            String email,
-            String address
-    );
+    List<User> selectList( String username,  String email,  String address);
 
     // 更新用户
     Integer updateUser(User user);
@@ -32,11 +19,11 @@ public interface UserService {
     Integer deleteUserById(Integer id);
 
     // 用户登录
-    UserDTO login(UserDTO userDTO);
+    UserVO login(UserDTO userDTO);
 
     // 用户注册
     User register(UserDTO userDTO);
 
     // 获取用户信息
-    User getUserInfo(UserDTO userDTO, boolean onlyByUsername);
+    User getUserInfo(String username,String password,Integer id);
 }

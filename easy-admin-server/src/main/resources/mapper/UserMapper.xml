@@ -27,7 +27,7 @@
     </sql>
 
     <!-- 查询所有用户   -->
-    <select id="all">
+    <select id="all" resultType="com.easy.domain.pojo.User">
         SELECT
             <include refid="user_columns" />
         FROM
@@ -35,7 +35,7 @@
     </select>
 
     <!-- 根据条件查询用户   -->
-    <select id="list" resultType="com.easy.entity.User">
+    <select id="list" resultType="com.easy.domain.pojo.User">
         SELECT
             <include refid="user_columns"></include>
         FROM
@@ -43,7 +43,6 @@
         <where>
                 <include refid="user_where_if"></include>
         </where>
-            LIMIT #{pageNum},#{pageSize};
     </select>
 
     <!-- 查询总条数   -->
@@ -83,7 +82,7 @@
         </where>
     </update>
 
-    <!-- 根据id查询用户   -->
+    <!-- 根据id删除用户   -->
     <delete id="deleteById">
         DELETE FROM
                    sys_user
@@ -91,7 +90,8 @@
             id = #{id}
     </delete>
 
-    <select id="selectUserByUsernameAndPassword" resultType="com.easy.entity.User">
+    <!-- 根据用户名、密码、id查询用户    -->
+    <select id="select" resultType="com.easy.domain.pojo.User">
         SELECT
             <include refid="user_columns" />,password
         FROM
@@ -101,7 +101,10 @@
                 username=#{username}
             </if>
             <if test="password != null and password != '' ">
-             AND  password=#{password}
+                AND  password=#{password}
+            </if>
+            <if test="id != null and id != '' ">
+                AND  id=#{id}
             </if>
         </where>
     </select>

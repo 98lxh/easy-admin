@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1a7e2b7-1eb3-4fae-ab6e-8f38f0098455" name="更改" comment="chore:init" />
+    <list default="true" id="e1a7e2b7-1eb3-4fae-ab6e-8f38f0098455" name="更改" comment="chore:init">
+      <change afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/annotation/CheckToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/config/InterceptorConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/domain/vo/UserVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/interceptor/JwtInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/controller/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/domain/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/domain/pojo/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/utils/TokenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/java/com/easy/utils/TokenUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy-admin-server/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/easy-admin-server/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,30 +25,30 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": -1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: -1
+}</component>
   <component name="ProjectId" id="2X663sPGpFfpZsRl2HWjljhZq9y" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\Users\\Administrator\\Desktop\\project\\easy-admin\\easy-admin-web\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Administrator\\Desktop\\project\\easy-admin\\easy-admin-web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -43,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1697936987733</updated>
       <workItem from="1697936988757" duration="167000" />
+      <workItem from="1698227618622" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="chore:init">
       <option name="closed" value="true" />
@@ -57,6 +73,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore:init" />

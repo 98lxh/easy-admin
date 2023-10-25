@@ -2,6 +2,8 @@ server:
   port: 9090
 
 spring:
+  jwt:
+    sign: liuxuehan@Token777
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/easy_admin_test?serverTimezone=GMT%2b8
@@ -75,6 +77,8 @@ spring:
         session-stat-max-count: 100
         # 过滤路径
         url-pattern: /*
+
+
 
   mvc:
     pathmatch:

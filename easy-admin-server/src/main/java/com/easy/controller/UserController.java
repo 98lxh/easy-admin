@@ -1,16 +1,19 @@
 package com.easy.controller;
 
+import com.easy.annotation.CheckToken;
 import com.easy.common.ResultCode;
-import com.easy.controller.dto.UserDTO;
+import com.easy.domain.dto.UserDTO;
+import com.easy.domain.vo.UserVO;
 import com.easy.utils.StrUtil;
-import com.easy.utils.TokenUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.easy.service.UserService;
 import com.easy.common.Result;
-import com.easy.entity.User;
+import com.easy.domain.pojo.User;
 
 
 import java.util.HashMap;
@@ -26,6 +29,7 @@ public class UserController {
 
     @ApiOperation(value = "查询所有用户") // 描述方法的基本信息
     @GetMapping("/all")
+    @CheckToken
     public Result all(){
         List<User> allUsers = userService.selectAll();
         return Result.success("获取成功",  allUsers);
@@ -33,6 +37,7 @@ public class UserController {
 
     @ApiOperation(value = "根据条件查询用户")
     @GetMapping("/list")
+    @CheckToken
     public Result list(
                        @RequestParam(defaultValue = "1") Integer pageNum,
                        @RequestParam(defaultValue = "5") Integer  pageSize,
@@ -40,9 +45,11 @@ public class UserController {
                        @RequestParam(defaultValue = "") String email,
                        @RequestParam(defaultValue = "") String address
     ){
-        pageNum = pageNum - 1;
-        Integer total = userService.selectTotal(username,email,address);
-        List<User> list = userService.selectList(pageNum,pageSize,username,email,address);
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> list = userService.selectList(username,email,address);
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        long total =  pageInfo.getTotal();
+
         Map<String,Object> result = new HashMap<>();
         result.put("list",list);
         result.put("total",total);
@@ -53,6 +60,7 @@ public class UserController {
     // 修改用户
     @ApiOperation(value = "修改用户信息")
     @PostMapping("/update")
+    @CheckToken
     public Result update(@RequestBody(required = false) User user){
         if (user == null ||user.getId() == null){
             return Result.error("请上传修改用户的id~");
@@ -64,6 +72,7 @@ public class UserController {
     // 删除用户根据id
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/delete/{id}")
+    @CheckToken
     public Result delete(@PathVariable Integer id){
         Integer deletes = userService.deleteUserById(id);
         return deletes == 0 ? Result.error("删除用户失败~") : Result.success("删除用户成功~");
@@ -72,6 +81,7 @@ public class UserController {
     // 用户登录
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
+    @CheckToken
     public Result login(@RequestBody(required = true) UserDTO userDTO){
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
@@ -80,8 +90,8 @@ public class UserController {
             return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
         }
 
-        UserDTO dto = userService.login(userDTO);
-        return Result.success("登录成功~",dto);
+        UserVO userVO = userService.login(userDTO);
+        return Result.success("登录成功~",userVO);
     }
 
     // 用户注册

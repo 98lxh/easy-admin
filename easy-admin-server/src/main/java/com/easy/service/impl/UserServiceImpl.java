@@ -1,8 +1,9 @@
 package com.easy.service.impl;
 
 import com.easy.common.ResultCode;
-import com.easy.controller.dto.UserDTO;
-import com.easy.entity.User;
+import com.easy.domain.dto.UserDTO;
+import com.easy.domain.vo.UserVO;
+import com.easy.domain.pojo.User;
 import com.easy.exception.ServiceException;
 import com.easy.mapper.UserMapper;
 import com.easy.service.UserService;
@@ -24,23 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectList(
-                Integer pageNum,
-                Integer pageSize,
-                String username,
-                String email,
-                String address
-    ) {
-        return userMapper.list(pageNum,pageSize,username,email,address);
-    }
-
-    @Override
-    public Integer selectTotal(
-            String username,
-            String email,
-            String address
-    ) {
-        return userMapper.total(username,email,address);
+    public List<User> selectList(String username,  String email,  String address) {
+        return userMapper.list(username,email,address);
     }
 
     @Override
@@ -54,54 +40,45 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(UserDTO userDTO) {
-        User loginUser = getUserInfo(userDTO,false);
+    public UserVO login(UserDTO dto) {
+        // 获取登录用户
+        User user = getUserInfo(dto.getUsername(), dto.getPassword(),null);
 
-        // 设置token
-        String token = TokenUtils.generateToken(loginUser.getId().toString(),loginUser.getPassword());
-
-        if(loginUser != null){
-            BeanUtils.copyProperties(loginUser, userDTO);
-            userDTO.setToken(token);
-            return userDTO;
-        } else {
-            System.out.println(loginUser);
+        // 未根据用户名和密码查询到用户,说明用户名或密码错误
+        if(user == null){
             throw new ServiceException(ResultCode.CODE_600, "用户名或密码错误!");
         }
+
+        // 设置token
+        String token = TokenUtils.generateToken(user.getId().toString());
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        userVO.setToken(token);
+        return userVO;
     }
 
     @Override
     public User register(UserDTO userDTO) {
-        User user = getUserInfo(userDTO,true);
-
-        if(user == null){
-            user = new User();
-            BeanUtils.copyProperties(userDTO,user);
-            userMapper.create(user);
-        }else{
-            throw new ServiceException(ResultCode.CODE_600,"用户已存在~");
+        User user = getUserInfo(userDTO.getUsername(),null,null);
+        // 说明用户已存在
+        if(user != null){
+            throw new ServiceException(ResultCode.CODE_600, "用户名已存在");
         }
-
+        user = new User();
+        BeanUtils.copyProperties(userDTO, user);
+        userMapper.create(user);
         return user;
     }
 
     @Override
-    public User getUserInfo(UserDTO userDTO, boolean onlyByUsername) {
-        String username = userDTO.getUsername();
-        String password = userDTO.getPassword();
-        User loginUser;
-
+    public User getUserInfo(String username,String password,Integer id) {
+        User user;
         try{
-            List<User> users = userMapper.selectUserByUsernameAndPassword(
-                    username,
-                    onlyByUsername ? null : password
-            );
-
-            loginUser = users.isEmpty() ? null : users.get(0);
+            List<User> users = userMapper.select(username,password ,id);
+            user = users.isEmpty() ? null : users.get(0);
         }catch(Exception exception){
-            throw new ServiceException(ResultCode.CODE_500,"系统错误!");
+            throw new ServiceException(ResultCode.CODE_500, "系统错误!");
         }
-
-        return loginUser;
+        return user;
     }
 }
