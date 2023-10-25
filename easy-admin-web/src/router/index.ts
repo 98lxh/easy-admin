@@ -11,9 +11,13 @@ import { type App } from "vue"
 const routes = [
   { path: "/login", component: Login },
   {
-    path: "/", component: Layout, children: [
-      { path: "/system/user", component: User },
-      { path: "/welcome/dashboard", component: Dashboard }
+    path: "/welcome", component: Layout, children: [
+      { path: "dashboard", component: Dashboard }
+    ]
+  },
+  {
+    path :"/system", component: Layout, children: [
+      { path: "user", component: User },
     ]
   }
 ]

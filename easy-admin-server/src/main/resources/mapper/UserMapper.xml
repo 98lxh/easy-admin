@@ -23,7 +23,8 @@
         nickname,
         address,
         email,
-        avatar
+        avatar,
+        create_time
     </sql>
 
     <!-- 查询所有用户   -->

@@ -1,6 +1,7 @@
 import Service from "./request/index";
 import { ElMessage } from "element-plus"
 import { router } from "@/router"
+import { getToken } from "@/utils/auth";
 
 // process.env.VUE_APP_BASE_API
 const service = new Service({
@@ -8,6 +9,12 @@ const service = new Service({
   timeout: 5000,
   interceptors: {
     requestInterceptor(config) {
+      const token = getToken();
+
+      if(token !== null && token !== ""){
+        config.headers!.token = token;
+      }
+
       return config
     },
     responseInterceptor(response) {

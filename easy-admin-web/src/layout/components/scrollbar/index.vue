@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import Logo from "./logo.vue"
 import { computed } from "vue";
+import Logo from "./logo.vue"
 import { Menu as IconMenu } from '@element-plus/icons-vue'
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const state = computed(() => {
+  const { matched , path } = route;
+  return {
+    opends:matched.map(m => m.path),
+    active: path
+  }
+})
 
 const props = defineProps<{
   isCollapse: boolean
@@ -17,17 +28,33 @@ const classNames = computed(() => ({
   <div :class="classNames">
     <Logo :is-collapse="isCollapse" />
     <ElScrollbar>
-      <ElMenu :collapse="isCollapse" active-text-color="#409EFF" background-color="#001428" default-active="1-2" text-color="#fff">
-        <ElSubMenu index="1">
+      <ElMenu
+        :collapse="isCollapse"
+        :default-openeds="state.opends"
+        :default-active="state.active"
+        active-text-color="#409EFF"
+        background-color="#001428"
+        text-color="#fff"
+        router
+      >
+        <ElMenuItem index="/welcome/dashboard">
+          <ElIcon>
+            <IconMenu />
+          </ElIcon>
+          <template #title>
+            首页
+          </template>
+        </ElMenuItem>
+
+        <ElSubMenu index="/system">
           <template #title>
             <ElIcon>
               <IconMenu />
             </ElIcon>
-            <span>导航一</span>
+            <span>系统设置</span>
           </template>
-          <ElMenuItem index="1-1">子项一</ElMenuItem>
-          <ElMenuItem index="1-2">子项一</ElMenuItem>
-          <ElMenuItem index="1-3">子项一</ElMenuItem>
+          <ElMenuItem index="/system/user">用户管理</ElMenuItem>
+          <ElMenuItem index="/system/role">角色管理</ElMenuItem>
         </ElSubMenu>
       </ElMenu>
     </ElScrollbar>
@@ -44,7 +71,7 @@ const classNames = computed(() => ({
   z-index: 1000;
 
 
-  :deep(.el-menu){
+  :deep(.el-menu) {
     border-right: none;
   }
 

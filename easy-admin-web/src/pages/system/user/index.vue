@@ -14,7 +14,7 @@ const pagination = shallowReactive({ ...initialPagination });
 const params = ref({ ...initialParams })
 
 async function search() {
-  const { pageSize, pageNum } = initialPagination;
+  const { pageSize, pageNum } = pagination;
   try {
     loading.value = true
     const { data } = await getUsers({ pageNum, pageSize, ...params.value })
@@ -73,12 +73,13 @@ search();
     </div>
 
     <ElTable class="user__table" v-loading="loading" :data="tableData" size="small" border>
-      <ElTableColumn width="60px" prop="id" label="ID"></ElTableColumn>
+      <ElTableColumn width="60px" prop="id" label="ID" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn min-width="90px" prop="username" label="用户名" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn min-width="90px" prop="nickname" label="昵称" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn prop="email" label="邮箱" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn prop="phone" label="手机号" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn prop="address" label="地址" show-overflow-tooltip></ElTableColumn>
+      <ElTableColumn prop="createTime" label="创建时间" show-overflow-tooltip></ElTableColumn>
       <ElTableColumn label="操作" width="140px" fixed="right">
         <template #="scope">
           <ElButton text type="primary" size="small" @click="userModalRef?.onShow(Operator.update, scope.row)">编辑

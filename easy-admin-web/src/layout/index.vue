@@ -7,7 +7,7 @@ import Header from "./components/header/index.vue"
 const isCollapse = shallowRef(false);
 const handleCollapse = (collapse: boolean) => isCollapse.value = collapse;
 
-const warpperClassNames = computed(() => ({
+const wrapperClassNames = computed(() => ({
   "is-collapse": isCollapse.value,
   "layout__wrapper": true
 }))
@@ -16,7 +16,7 @@ const warpperClassNames = computed(() => ({
 <template>
   <div class="layout">
     <Scrollbar :is-collapse="isCollapse" />
-    <div :class="warpperClassNames">
+    <div :class="wrapperClassNames">
       <Header :is-collapse="isCollapse" @change-collapse="handleCollapse" />
       <div class="layout__wrapper-main">
         <RouterView />

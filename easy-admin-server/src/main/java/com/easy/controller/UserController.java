@@ -5,9 +5,11 @@ import com.easy.common.ResultCode;
 import com.easy.domain.dto.UserDTO;
 import com.easy.domain.vo.UserVO;
 import com.easy.utils.StrUtil;
+import com.easy.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import com.easy.common.Result;
 import com.easy.domain.pojo.User;
 
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +27,19 @@ import java.util.Map;
 @RequestMapping("/user")
 @Api(tags = "用户模块") // 用在类上描述整个Controller接口信息
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
+
+    // 根据token获取用户信息
+    @ApiModelProperty(value = "获取用户信息")
+    @GetMapping("/info")
+    @CheckToken
+    public Result info(){
+        User user = TokenUtils.getCurrentUser();
+        return user == null
+                ? Result.error("获取用户信息失败,请检查是否token")
+                : Result.success(user);
+    }
 
     @ApiOperation(value = "查询所有用户") // 描述方法的基本信息
     @GetMapping("/all")
@@ -81,7 +95,6 @@ public class UserController {
     // 用户登录
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    @CheckToken
     public Result login(@RequestBody(required = true) UserDTO userDTO){
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
