@@ -1,0 +1,10 @@
+.page-content {
+  background:#fff;
+  padding:10px;
+
+  .page-content__pagination{
+    display: flex;
+    margin-top:10px;
+    justify-content: flex-end;
+  }
+}

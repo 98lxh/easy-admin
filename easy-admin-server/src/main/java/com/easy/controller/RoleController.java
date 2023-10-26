@@ -58,9 +58,7 @@ public class RoleController {
     public Result list(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-
         Map<String,Object> result = new HashMap<>();
-
         Page<Role> rolePage = roleService.page(new Page<>(pageNum,pageSize),queryWrapper);
 
         result.put("total",rolePage.getTotal());

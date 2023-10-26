@@ -53,11 +53,11 @@ public class UserController {
     @GetMapping("/list")
     @CheckToken
     public Result list(
-                       @RequestParam(defaultValue = "1") Integer pageNum,
-                       @RequestParam(defaultValue = "5") Integer  pageSize,
-                       @RequestParam(defaultValue = "") String username,
-                       @RequestParam(defaultValue = "") String email,
-                       @RequestParam(defaultValue = "") String address
+      @RequestParam(defaultValue = "1") Integer pageNum,
+      @RequestParam(defaultValue = "5") Integer  pageSize,
+      @RequestParam(defaultValue = "") String username,
+      @RequestParam(defaultValue = "") String email,
+      @RequestParam(defaultValue = "") String address
     ){
         PageHelper.startPage(pageNum,pageSize);
         List<User> list = userService.selectList(username,email,address);

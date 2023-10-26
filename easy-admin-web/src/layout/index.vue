@@ -49,6 +49,7 @@ const wrapperClassNames = computed(() => ({
       min-width: 1200px;
       height: calc(100vh - 120px);
       padding-top: 45px;
+      // background:#909399;
     }
   }
 }

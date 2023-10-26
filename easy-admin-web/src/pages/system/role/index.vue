@@ -7,13 +7,14 @@ import contentConfig from "./config/content.config";
 import modalConfig from "./config/modal.config";
 
 const { pageContentRef, handleResetClick, handleSearchClick } = usePageSearch();
+
 const { pageModalRef, handlePreviewData ,handleUpdateData ,handleConfrim,defaultInfo } = usePageModal({
   pageContentRef
 });
 </script>
 
 <template>
-  <div class="main user">
+  <div class="main role">
     <PageSearch
       :form-config="searchFormConfig"
       @search-btn-click="handleSearchClick"
