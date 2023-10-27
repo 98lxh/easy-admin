@@ -2,6 +2,7 @@ import Service from "./request/index";
 import { ElMessage } from "element-plus"
 import { router } from "@/router"
 import { getToken } from "@/utils/auth";
+import { logout } from "@/store/modules/user";
 
 // process.env.VUE_APP_BASE_API
 const service = new Service({
@@ -26,8 +27,8 @@ const service = new Service({
             ElMessage.warning(message);
             break;
           case 401:
-            ElMessage.warning(message);
-            router.replace("/login")
+            ElMessage.warning(message)
+            logout();
             break;
           case 403:
             ElMessage.warning(message);

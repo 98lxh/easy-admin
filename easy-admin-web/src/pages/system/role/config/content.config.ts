@@ -1,5 +1,5 @@
 import { ContentConfig } from "@/components/PageContent";
-import { getUsers, updateUser } from "@/service/modules/user";
+import { getRoles, updateRole, createRole, deleteRoleById} from "@/service/modules/system/role";
 
 const columns = [
   {
@@ -7,24 +7,12 @@ const columns = [
     prop: "id"
   },
   {
-    label: "用户名",
-    prop: "username"
+    label: "角色名",
+    prop: "name"
   },
   {
-    label: "昵称",
-    prop: "nickname"
-  },
-  {
-    label: "邮箱",
-    prop: "email"
-  },
-  {
-    label: "手机号",
-    prop: "phone"
-  },
-  {
-    label: "地址",
-    prop: "address"
+    label: "描述",
+    prop: "description"
   },
   {
     label: "创建时间",
@@ -34,16 +22,18 @@ const columns = [
     label: "操作",
     type: "operation",
     fixed: "right",
-    width: 80
+    width: 110
   }
 ];
 
 const contentConfig: ContentConfig = {
-  title: "用户列表",
+  title: "角色列表",
   columns,
   apis: {
-    httpList:getUsers,
-    httpUpdate: updateUser
+    httpList: getRoles,
+    httpUpdate: updateRole,
+    httpAdd: createRole,
+    httpDelete: deleteRoleById
   }
 };
 

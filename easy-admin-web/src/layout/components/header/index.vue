@@ -3,9 +3,12 @@ import { computed } from "vue"
 import { ArrowDown, Expand, Fold } from '@element-plus/icons-vue'
 import { ElDropdownItem, ElDropdownMenu } from 'element-plus';
 import { useRouter } from "vue-router"
+import { useUserStore } from "@/store/modules/user";
 
 const props = defineProps<{ isCollapse: boolean }>();
 const emit = defineEmits(["change-collapse"])
+
+const store = useUserStore();
 
 const router = useRouter()
 const logout = () => router.push("/login")
@@ -22,11 +25,11 @@ const classNames = computed(() => ({
   <ElHeader :class="classNames">
     <div class="header__left">
       <ElIcon v-if="isCollapse" @click="emit('change-collapse', false)">
-                  <Fold />
-                </ElIcon>
+        <Fold />
+      </ElIcon>
 
-                <ElIcon v-else @click="emit('change-collapse', true)">
-              <Expand />
+      <ElIcon v-else @click="emit('change-collapse', true)">
+        <Expand />
       </ElIcon>
     </div>
 
@@ -34,7 +37,7 @@ const classNames = computed(() => ({
       <ElDropdown>
         <div class="userinfo">
           <el-avatar :size="25" />
-          <span>用户Test</span>
+          <span>{{ store.$state.info?.nickname }}</span>
           <ElIcon style="margin-right: 8px; margin-top: 1px">
             <ArrowDown />
           </ElIcon>

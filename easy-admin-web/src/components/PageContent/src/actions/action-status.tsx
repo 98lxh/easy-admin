@@ -21,8 +21,9 @@ const ActionStatus = defineComponent({
       const { status: rawStatus, id } = row;
       const status = Number(rawStatus) === 1 ? "0" : "1";
       const fields = (props.prop ? { [props.prop]: row[props.prop] } : { id })
-      const { code } = await config?.api({ ...fields, status });
-      if (code !== 0) return
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      const response= await config?.api({ ...fields, status });
+      if (response!.code !== 0) return
       emit("reload")
     }
 

@@ -7,29 +7,18 @@ import contentConfig from "./config/content.config";
 import modalConfig from "./config/modal.config";
 
 const { pageContentRef, handleResetClick, handleSearchClick } = usePageSearch();
-const { pageModalRef, handlePreviewData ,handleUpdateData ,handleConfrim,defaultInfo } = usePageModal({
+const { pageModalRef, handlePreviewData, handleUpdateData, handleConfrim, defaultInfo } = usePageModal({
   pageContentRef
 });
 </script>
 
 <template>
   <div class="main user">
-    <PageSearch
-      :form-config="searchFormConfig"
-      @search-btn-click="handleSearchClick"
-      @reset-btn-click="handleResetClick"
-    />
-    <PageContent
-      ref="pageContentRef"
-      :content-config="contentConfig"
-      @preview-btn-click="handlePreviewData"
-      @update-btn-click="handleUpdateData"
-    />
-    <PageModal
-      ref="pageModalRef"
-      :modal-config="modalConfig"
-      :default-info="defaultInfo"
-       @confirm-btn-click="handleConfrim"
-    />
+    <PageSearch :form-config="searchFormConfig" @search-btn-click="handleSearchClick"
+      @reset-btn-click="handleResetClick" />
+    <PageContent ref="pageContentRef" :content-config="contentConfig" @preview-btn-click="handlePreviewData"
+      @update-btn-click="handleUpdateData" />
+    <PageModal ref="pageModalRef" :modal-config="modalConfig" :default-info="defaultInfo"
+      @confirm-btn-click="handleConfrim" />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, shallowRef } from "vue"
 import { User, Key } from "@element-plus/icons-vue"
-import { login, register } from "@/service/modules/user"
+import { register } from "@/service/modules/system/user"
 import { ElMessage } from "element-plus"
 import { useRouter } from "vue-router"
 import { rules } from "./config/rules"
@@ -44,7 +44,7 @@ async function onLogin() {
   execRequestCallback(async () => {
     const { username, password } = userData.value;
     const response = await store.login({ username, password })
-    if (response.code !== 200) return
+    if (response === null) return
     ElMessage.success(`登录成功, 欢迎用户 ${username}!`)
     router.push("/welcome/dashboard");
   })
@@ -145,3 +145,4 @@ async function onRegister() {
   }
 }
 </style>
+@/service/modules/system/user

@@ -4,19 +4,9 @@ const searchFormConfig: FormConfig = {
   formItems: [
     {
       type: "input",
-      field: "username",
-      placeholder: "请输入用户名"
+      field: "name",
+      placeholder: "请输入角色名"
     },
-    {
-      type: "input",
-      field: "email",
-      placeholder: "请输入邮箱"
-    },
-    {
-      type: "input",
-      field: "address",
-      placeholder: "地址"
-    }
   ]
 };
 

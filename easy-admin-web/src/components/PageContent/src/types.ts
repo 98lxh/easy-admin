@@ -10,20 +10,20 @@ import PageContent from "./page-content";
  */
 export interface ContentConfig {
   title: string;
-  apis: ContentApis;
   columns: any;
   notPagination?: boolean;
+  apis: ContentApis;
   statusProp?: string;
   isTree?: boolean;
 }
 
 interface ContentApiResponse {
-  code: number;
   message: string;
+  code: number;
   data: any;
 }
 
-type API = (data: any) => Promise<ContentApiResponse>;
+type API = (data?: any) => Promise<ContentApiResponse>;
 
 export type ActionType = "update" | "delete" | "create" | "preview" | "status";
 

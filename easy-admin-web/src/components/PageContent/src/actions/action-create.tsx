@@ -10,6 +10,7 @@ const ActionCreate = defineComponent({
         onClick={() => emit("create")}
         icon={<Plus />}
         type="primary"
+        size="small"
       >
         新增
       </el-button>

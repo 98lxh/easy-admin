@@ -18,48 +18,87 @@ const PageContent = defineComponent({
   ],
   setup(props, { expose, emit }) {
     //根据传入的api决定表格需要的操作
-    const action = createOperation(props.contentConfig.apis);
+    const operators = createOperation(props.contentConfig.apis);
 
     const {
-      dataList,
       loading,
+      dataList,
       onSearch,
       getPageData,
       onBeforeAction,
       paginationConfig
     } = useContentRequest(props);
 
-    // 渲染需要的操作按钮
-    function renderOperation(row: any) {
+    function renderUpdateOperator(row: any){
+      if(!operators.update) return null;
       const { contentConfig } = props;
       const { apis } = contentConfig;
+      return (
+        <Operation.Update onUpdate={() => emit("updateBtnClick", row)}
+            {...createActionProps("update", apis)}
+         />
+      )
+    }
 
+    function renderStatusOperator(row: any){
+      if(!operators.status) return null
+      const { contentConfig } = props;
+      const { apis } = contentConfig;
+      return (
+        <Operation.Status row={row} prop={contentConfig.statusProp}
+           onReload={() => onSearch()}
+           {...createActionProps("status", apis)}
+         />
+      )
+    }
+
+    function renderDeleteOperator(row: any){
+      if(!operators.delete) return null
+      const { contentConfig } = props;
+      const { apis } = contentConfig;
+      return (
+        <Operation.Delete  row={row} onReload={() => onSearch()}
+            {...createActionProps("delete", apis)}
+        />
+      )
+    }
+
+    function renderCreateOperator(){
+      if(!operators.create) return;
+      const { contentConfig } = props;
+      const { apis } = contentConfig;
+      return (
+        <Operation.Create onCreate={() => emit("createBtnClick")}
+          {...createActionProps("create",apis)} 
+        />
+      )
+    }
+
+
+
+    // 渲染需要的操作按钮
+    function renderOperation(row: any) {
       return (
         <>
           <Operation.Preview onPreview={() => emit("previewBtnClick", row)} />
-          {action.update && (
-            <Operation.Update
-              onUpdate={() => emit("updateBtnClick", row)}
-              {...createActionProps("update", apis)}
-            />
-          )}
-          {action.status && (
-            <Operation.Status
-              row={row}
-              prop={contentConfig.statusProp}
-              onReload={() => onSearch()}
-              {...createActionProps("status", apis)}
-            />
-          )}
-          {action.delete && (
-            <Operation.Delete
-              row={row}
-              onReload={() => onSearch()}
-              {...createActionProps("delete", apis)}
-            />
-          )}
+          {renderUpdateOperator(row)}
+          {renderStatusOperator(row)}
+          {renderDeleteOperator(row)}
         </>
       );
+    }
+
+    function renderHeader(){
+      const { contentConfig} = props;
+      const { title } = contentConfig;
+      return (
+        <div class="page-content__header">
+          <div>
+            {title && <h3>{title}</h3>}
+          </div>
+          {renderCreateOperator()}
+        </div>
+      )      
     }
 
     function renderTable() {
@@ -105,6 +144,7 @@ const PageContent = defineComponent({
     return () => {
       return (
         <div class="page-content" v-loading={loading.value}>
+          {renderHeader()}
           {renderTable()}
           {renderPagination()}
         </div>

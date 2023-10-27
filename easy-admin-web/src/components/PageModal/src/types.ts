@@ -1,10 +1,11 @@
 import { ActionType } from "../../PageContent";
 import { FormGorup, FormItem } from "../../BasicForm";
 import pageModal from "./page-modal.vue";
+import { PropType } from "vue";
 
 export type PageModalInstance = typeof pageModal & {
-  dialogVisible: boolean;
-  confirmLoading: boolean;
+  visible: boolean;
+  loading: boolean;
   type: ActionType;
 };
 

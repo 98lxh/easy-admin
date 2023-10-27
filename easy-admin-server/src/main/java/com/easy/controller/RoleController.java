@@ -7,6 +7,7 @@ import com.easy.annotation.CheckToken;
 import com.easy.common.Result;
 import com.easy.domain.pojo.Role;
 import com.easy.service.RoleService;
+import com.easy.utils.StrUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -52,12 +53,28 @@ public class RoleController {
         return Result.success(role);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @CheckToken
+    public Result deleteById(@PathVariable Integer id){
+        boolean isRemove = roleService.removeById(id);
+        return isRemove ? Result.success("删除成功~") : Result.error("删除失败~");
+    }
+
     // 角色列表
     @GetMapping("/list")
     @CheckToken
-    public Result list(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+    public Result list(
+            @RequestParam Integer pageNum,
+            @RequestParam Integer pageSize,
+            @RequestParam(defaultValue = "") String name
+    ){
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
+
+        if(!StrUtil.isEmpty(name)){
+            queryWrapper.like("name",name);
+        }
+
         Map<String,Object> result = new HashMap<>();
         Page<Role> rolePage = roleService.page(new Page<>(pageNum,pageSize),queryWrapper);
 

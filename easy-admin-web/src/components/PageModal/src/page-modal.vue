@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { modalProps } from "./types";
-import { computed, ref, unref, watch , shallowRef} from "vue";
+import { computed, ref, unref, watch, shallowRef } from "vue";
 import { ActionType } from "@/components/PageContent";
 import { BasicForm, FormItem } from "@/components/BasicForm";
 import { createBasicTitle } from "./utils/create-basic-title";

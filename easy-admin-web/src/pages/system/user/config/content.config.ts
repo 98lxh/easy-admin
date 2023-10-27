@@ -1,5 +1,5 @@
 import { ContentConfig } from "@/components/PageContent";
-import { getUsers, updateUser } from "@/service/modules/user";
+import { getUsers, updateUser, deleteUserById } from "@/service/modules/system/user";
 
 const columns = [
   {
@@ -34,7 +34,7 @@ const columns = [
     label: "操作",
     type: "operation",
     fixed: "right",
-    width: 80
+    width: 110
   }
 ];
 
@@ -43,7 +43,8 @@ const contentConfig: ContentConfig = {
   columns,
   apis: {
     httpList:getUsers,
-    httpUpdate: updateUser
+    httpUpdate: updateUser,
+    httpDelete: deleteUserById
   }
 };
 

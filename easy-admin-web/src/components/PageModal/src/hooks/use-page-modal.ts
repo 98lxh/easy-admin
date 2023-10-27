@@ -26,7 +26,7 @@ export function usePageModal({
     defaultInfo.value = {};
     pageModalRef.value!.type = "create";
     createCallback && createCallback();
-    pageModalRef.value!.dialogVisible = true;
+    pageModalRef.value!.visible = true;
   }
 
   function handleUpdateData(item: any) {
@@ -35,19 +35,19 @@ export function usePageModal({
     defaultInfo.value = { ...item };
     pageModalRef.value!.type = "update";
     updateCallback && updateCallback();
-    pageModalRef.value!.dialogVisible = true;
+    pageModalRef.value!.visible = true;
   }
 
   function handlePreviewData(item: any) {
     defaultInfo.value = { ...item };
     pageModalRef.value!.type = "preview";
     previewCallback && previewCallback();
-    pageModalRef.value!.dialogVisible = true;
+    pageModalRef.value!.visible = true;
   }
 
   function handleConfrim(type: ActionType, data: any) {
     const result = confirmCallback ? confirmCallback(data) : {};
-    pageModalRef.value!.confirmLoading = true;
+    pageModalRef.value!.loading = true;
 
     const params = {
       ...(type === "update" ? { id: defaultInfo.value.id } : {}),
@@ -56,8 +56,8 @@ export function usePageModal({
     };
 
     pageContentRef.value!.onBeforeAction(type, params, () => {
-      pageModalRef.value!.confirmLoading = false;
-      pageModalRef.value!.dialogVisible = false;
+      pageModalRef.value!.loading = false;
+      pageModalRef.value!.visible = false;
     });
   }
 

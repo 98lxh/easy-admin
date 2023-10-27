@@ -1,7 +1,7 @@
 import { ModalConfig } from "@/components/PageModal";
 
 const modalConfig: ModalConfig = {
-  title: "客户",
+  title: "用户",
   colLayout: {span:24},
   formItems: [
     {

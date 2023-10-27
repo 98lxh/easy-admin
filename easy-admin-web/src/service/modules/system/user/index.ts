@@ -44,3 +44,9 @@ export function deleteUserById(id: number) {
   })
 }
 
+export function getUserInfo() {
+  return service.get<ResponseData<null>>({
+    url: `${baseUrl}/info`
+  })
+}
+

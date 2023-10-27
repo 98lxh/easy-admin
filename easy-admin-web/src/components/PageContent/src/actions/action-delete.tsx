@@ -15,8 +15,9 @@ const ActionDelete = defineComponent({
   setup(props, { emit }) {
     async function handleDelete() {
       const { config, row } = props;
-      const { code } = await config?.api({ id: row.id });
-      if(code !== 0) return;
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      const response = await config?.api(row.id);
+      if(response!.code !== 200) return;
       emit("reload")
     }
 

@@ -33,7 +33,7 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "C:\\Users\\Administrator\\Desktop\\project\\easy-admin\\easy-admin-server\\src\\main\\resources\\mapper\\")); // 设置mapperXML生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("sys_role") // 设置生成的表名
+                    builder.addInclude("sys_menu") // 设置生成的表名
                             .addTablePrefix("sys_","t_"); // 生成过滤表前缀
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认使用Velocity引擎
