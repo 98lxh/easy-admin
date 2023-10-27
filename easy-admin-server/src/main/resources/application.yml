@@ -78,8 +78,6 @@ spring:
         # 过滤路径
         url-pattern: /*
 
-
-
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER

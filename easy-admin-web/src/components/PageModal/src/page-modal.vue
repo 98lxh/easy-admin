@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { modalProps } from "./types";
 import { computed, ref, unref, watch, shallowRef } from "vue";
-import { ActionType } from "@/components/PageContent";
 import { BasicForm, FormItem } from "@/components/BasicForm";
 import { createBasicTitle } from "./utils/create-basic-title";
+import { ActionType } from "@/components/PageContent";
 
 const props = defineProps(modalProps);
 const emit = defineEmits(["confirmBtnClick"]);
@@ -19,7 +19,7 @@ const isPreview = computed(() => type.value === "preview");
 
 const title = computed(() => {
   const basicTitle = createBasicTitle(type.value);
-  return type.value === "preview" ? props.modalConfig.title + basicTitle : basicTitle + props.modalConfig.title;
+  return type.value === "preview" ? props.modalConfig?.title + basicTitle : basicTitle + props.modalConfig?.title;
 });
 
 function changeDefaultInfo(formItems: Array<FormItem>, newVal: any) {
@@ -33,8 +33,8 @@ function changeDefaultInfo(formItems: Array<FormItem>, newVal: any) {
 watch(
   () => props.defaultInfo,
   newVal => {
-    const { formGroup, formItems } = props.modalConfig;
-    if (!formGroup) return changeDefaultInfo(formItems, newVal);
+    const { formGroup, formItems } = props.modalConfig!;
+    if (!formGroup) return changeDefaultInfo(formItems!, newVal);
     formGroup.forEach(item => changeDefaultInfo(item.formItems, newVal));
   }
 );

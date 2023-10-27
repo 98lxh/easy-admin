@@ -95,30 +95,32 @@ public class UserController {
     // 用户登录
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public Result login(@RequestBody(required = true) UserDTO userDTO){
-        String username = userDTO.getUsername();
-        String password = userDTO.getPassword();
+    public Result login(@RequestBody(required = true) UserDTO dto){
+        String username = dto.getUsername();
+        String password = dto.getPassword();
 
         if(StrUtil.isEmpty(username) || StrUtil.isEmpty(password)){
             return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
         }
 
-        UserVO userVO = userService.login(userDTO);
+        dto.setPassword(StrUtil.md5(dto.getPassword()));
+        UserVO userVO = userService.login(dto);
         return Result.success("登录成功~",userVO);
     }
 
     // 用户注册
     @ApiOperation(value = "用户注册")
     @PostMapping("/register")
-    public Result register(@RequestBody UserDTO userDTO){
-        String username = userDTO.getUsername();
-        String password = userDTO.getPassword();
+    public Result register(@RequestBody UserDTO dto){
+        String username = dto.getUsername();
+        String password = dto.getPassword();
 
         if(StrUtil.isEmpty(username) || StrUtil.isEmpty(password)){
             return Result.error(ResultCode.CODE_400,"用户名或密码不能为空",null);
         }
 
-        User user = userService.register(userDTO);
+        dto.setPassword(StrUtil.md5(dto.getPassword()));
+        User user = userService.register(dto);
         return Result.success(user);
     }
 }

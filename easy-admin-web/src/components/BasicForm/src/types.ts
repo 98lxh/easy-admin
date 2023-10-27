@@ -22,7 +22,7 @@ export type FormItem = {
   labelWidth?: string;
 };
 
-export type FormGorup = {
+export type FormGroup = {
   title: string;
   formItems: Array<FormItem>;
 };
@@ -33,7 +33,7 @@ export const basicFormProps = {
     default: () => []
   },
   formGroup: {
-    type: Array as PropType<Array<FormGorup>>,
+    type: Array as PropType<Array<FormGroup>>,
     default: () => []
   },
   itemStyle: {

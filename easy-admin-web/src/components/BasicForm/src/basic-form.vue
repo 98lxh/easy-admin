@@ -7,7 +7,7 @@ import FormItems from "./form-items.vue";
 import GroupForm from "./group-form.vue";
 
 const props = defineProps(basicFormProps);
-const formRef = ref<InstanceType<typeof ElForm>>(null);
+const formRef = ref<InstanceType<typeof ElForm> | null>(null);
 const formData = useVModel(props, "formData");
 
 //校验方法

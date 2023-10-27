@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * <p>
@@ -16,10 +17,9 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("sys_menu")
 @ApiModel(value = "Menu对象", description = "")
+@Data
 public class Menu implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
     @ApiModelProperty("ID")
     private Integer id;
 
@@ -34,51 +34,4 @@ public class Menu implements Serializable {
 
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-            "id=" + id +
-            ", name=" + name +
-            ", path=" + path +
-            ", icon=" + icon +
-            ", createTime=" + createTime +
-        "}";
-    }
 }

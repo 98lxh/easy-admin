@@ -9,14 +9,14 @@ import com.easy.mapper.UserMapper;
 import com.easy.service.UserService;
 import com.easy.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Override
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         }
         user = new User();
         BeanUtils.copyProperties(userDTO, user);
+       // 加密密码存入数据库
         userMapper.create(user);
         return user;
     }
